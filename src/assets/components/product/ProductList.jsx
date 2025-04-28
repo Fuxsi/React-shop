@@ -12,7 +12,7 @@ const ProductList = () => {
     const [selectedProduct, setSelectedProduct] = useState(null)
     console.log(selectedProduct?.title)
     const {data: products, error, isLoading} = useSWR(`https://fakestoreapi.com/products`, fetcher);
-    console.log(data, error, isLoading)
+    console.log(products, error, isLoading)
 
     // const [products, setProducts] = useState([])
 
@@ -35,7 +35,7 @@ const ProductList = () => {
     return(
         <div className="flex flew-row space-between">
         <div className={styles.container}>
-            {data.map((product) => (
+            {products.map((product) => (
             <ProductCard
             key={product.id}
             product={product}
