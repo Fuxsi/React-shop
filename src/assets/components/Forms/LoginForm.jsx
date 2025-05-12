@@ -3,6 +3,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
 
 
 
@@ -27,7 +29,7 @@ const yupSchema = yup.object().shape ({
     .max(500, "Maksymalna długość opisu: 500"),
 });
 
-export default function LoginForm() {
+export default function LoginForm({fromRegister = false}) {
     const [apiError, setApiError] = useState(null);
     const [succsess, setSuccess] = useState(null);
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
@@ -40,19 +42,25 @@ export default function LoginForm() {
         resolver: yupResolver(yupSchema)
     });
 
+    const navigate = useNavigate();
+
    const onSubmit = async (data) => {
     setApiError(null);
     setSuccess(null);
     setIsFormSubmitting(true);
-    console.log("Dane formularza: ", data);
+    
     try {
         const response = await axios.post(
             "https://fakestoreapi.com/auth/login",
             data
         );
-        if (response) {
+        if (response.data.token) {
+            LoginForm(response.data.token, response.data);
             setSuccess(true);
             reset();
+            navigate("/products");
+            
+        
         }
         setIsFormSubmitting(false);
     } catch (e) {
@@ -69,10 +77,34 @@ setIsFormSubmitting(false);
     }
     
    };
+
+//    const {login} = useAuth();
+//    const onSubmit = async (data) => {
+//     setApiError(null);
+//     setSuccess(null);
+//     setIsFormSubmitting(true);
+//     try {
+//         const response = await axios.post(
+//             "https://fakestoreapi.com/auth/login",
+//             data
+//         );
+//         if (response.data.token) {
+//             login(response.data.token, response.data);
+//             setSuccess(true);
+//             reset();
+//             navigate("/products");
+//         }
+//     }
+//    }
    
    return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-10">
         <h1>Logowanie</h1>
+        {fromRegister && (
+            <span>
+                Rejestracja zakończona sukcesem. Możesz się zalogować.
+            </span>
+        )}
         {apiError && <span>{apiError}</span>}
         {succsess && <span>Sukces</span>}
         <div className="flex flex-col">
