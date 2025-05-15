@@ -1,41 +1,9 @@
-// import { NavLink, Outlet, useNavigate } from "react-router-dom";
-// import { useAuth } from "../hooks/useAuth";
 
-// const MainLayout = () =>{
-//     const { user, logout } = useAuth();
-//     const navigate = useNavigate();
-//     const handleLogout = () => {
-//         logout();
-//         navigate("/login");}
-//     return (
-//         <>
-//         <div>To jest nagłówek strony
-//             {user ? ( 
-//                 <>
-//                     <NavLink to="">Home</NavLink>
-//                     <NavLink to="/products">Produkty</NavLink>
-//                     <button onClick={handleLogout}>Wyloguj się</button>
-//                 </>
-//             ) : (
-//                 <>
-//                     <NavLink to="/login">Logowanie</NavLink>
-//                     <NavLink to="/register">Rejestracja</NavLink>
-//                 </>
-//             )}
-
-//         </div>
-//             <Outlet/>
-//             <footer>Stopka</footer>
-//         </>
-//     )
-// }
-
-// export default MainLayout;
 
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {useAuth} from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
-import Cart from "../routes/Cart"
+// import Cart from "../routes/Cart";
 
 const MainLayout = () => {
   const { user, logout } = useAuth();

@@ -1,9 +1,18 @@
-import { createContext, useState, useEffect, useMemo, useCallback } from "react";
+import { createContext, useState, useEffect, useMemo, useCallback, ReactElement } from "react";
+import { CartContextType } from "@/types/CartContextType";
+import { Product } from "@/types/Product";
 
-export const CartContext = createContext();
 
-export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+export const CartContext = createContext<CartContextType>({
+  cartItems: [],
+  addToCart: (_: Product) => {},
+  removeFromCart: (_: number) => {},
+  clearCart: () => {},
+  cartSum: 0,
+});
+
+export const CartProvider = ({ children } : {children : ReactElement}) => {
+  const [cartItems, setCartItems] = useState<Product[]>([]);
 
   // Ładowanie koszyka z localStorage przy inicjalizacji
   useEffect(() => {
@@ -24,11 +33,11 @@ export const CartProvider = ({ children }) => {
   }, [cartItems]);
 
 
-  const addToCart = useCallback((product) => {
+  const addToCart = useCallback((product : Product) => {
     setCartItems(prev => [...prev, product]);
   }, []); 
 
-  const removeFromCart = useCallback((productId) => {
+  const removeFromCart = useCallback((productId : number) => {
     setCartItems(prevcartItems => prevcartItems.filter((item) => item.id !== productId));
   }, []);
 
@@ -38,7 +47,8 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, 
+      value={{ 
+        cartItems, 
         addToCart, 
         removeFromCart, 
         clearCart,
@@ -49,3 +59,4 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+

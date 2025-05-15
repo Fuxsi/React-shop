@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import useCart from "../../../hooks/useCart"
+import useCart from "@/hooks/useCart";
 import { Product } from "@/types/Product";
 
 const ProductCard = ({ product }: { product: Product }) => {

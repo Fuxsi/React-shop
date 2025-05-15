@@ -16,7 +16,7 @@ import Cart from "./routes/Cart";
 import { useAuth } from "./hooks/useAuth";
 import useSWR from "swr";
 import { AuthProvider } from "./context/AuthContext";
-import { fetcher } from './utils/fetch';
+import { fetcher } from './utils/fetch.js';
 import LoginPage from "./routes/Login"
 import { lazy, Suspense } from 'react';
 

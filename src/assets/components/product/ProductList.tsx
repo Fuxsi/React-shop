@@ -4,9 +4,8 @@ import { useState, useMemo } from "react";
 import useProducts from "../../../hooks/useProducts";
 import useCategories from "../../../hooks/useCategories";
 import useDebounce from "../../../hooks/useDebounce";
-import { Product } from "@/types/Product";
+import { Product, SortUnion } from "@/types/Product";
 
-type SortUnion = "none" | "price_asc" |"price_desc";
 
 
 const ProductList = () => {
@@ -14,7 +13,7 @@ const ProductList = () => {
     const [priceMin, setPriceMin] = useState<number | undefined>(undefined);
     const [priceMax, setPriceMax] = useState<number | undefined>(undefined);
     const [selectedCategory, setSelectedCategory] = useState<string>("all")
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState<string>("");
     const debouncedSearchTerm = useDebounce(searchTerm);
     const {sortedAndFilteredData ,data, error, isLoading} = useProducts(
         priceMin,
@@ -50,7 +49,7 @@ const ProductList = () => {
             default:
                 return listCopy;        
         }
-    }, [data, sortState, priceMin, priceMax, selectedCategory]);
+    }, [data, sortState, priceMin, priceMax, selectedCategory, searchTerm]);
 
    
 
@@ -65,6 +64,7 @@ const ProductList = () => {
     }
 
     console.log(filteredAndSortedProducts, data)
+    console.log(sortedAndFilteredData)
 
     return(
 
@@ -75,7 +75,7 @@ const ProductList = () => {
                 <input
                 type="number"
                 value={priceMin}
-                onChange={(e) => setPriceMin(+e.target.value)} // jeden znak wstawić
+                onChange={(e) => setPriceMin(+e.target.value)} 
                 className="mb-4 p-2 border-rounded"
                 ></input>
             </div>
